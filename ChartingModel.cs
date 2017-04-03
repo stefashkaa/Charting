@@ -18,13 +18,13 @@ namespace Charting
 
         public ChartingObject getObject(int index)
         {
-            return all[index-1];
+            return all[index];
         }
 
         public void setObject(int id, string newName, string newFunction, int newStep,
                                     double newMin, double newMax)
         {
-            all[id-1] = new ChartingObject(id, newName, newFunction, newStep, newMin, newMax);
+            all[id] = new ChartingObject(id, newName, newFunction, newStep, newMin, newMax);
         }
 
         public void addObject(string name, string function, int step,

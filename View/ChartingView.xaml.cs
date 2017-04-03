@@ -52,8 +52,12 @@ namespace Charting
             f.ShowDialog();
             if (!f.IsOK)
                 return;
-            controller.addFunction(f.Name, f.Function, f.Step, f.Min, f.Max);
-
+            if (!controller.addFunction(f.Name, f.Function,
+                                       f.Step, f.Min, f.Max))
+            {
+                MessageBox.Show("Невозможно добавить график: непредвиденное исключение!");
+                return;
+            }
             GraphicsElement ge = new GraphicsElement(controller.getAllChartings().Count, 
                                                      f.Name, f.Function, f.Step, f.Min, f.Max);
             
@@ -62,12 +66,38 @@ namespace Charting
             ge.Margin = new Thickness(1);
             ge.Width = elementsPanel.Width - scrollViewer.Width;
             elementsPanel.Children.Add(ge);
-            
+            MessageBox.Show("График функции '"+f.Name+"' добавлен!");
         }
 
         private void alterFunction_Click(object sender, RoutedEventArgs e)
         {
-
+            InputIndex i = new InputIndex() { Title = "Изменение по индексу" };
+            i.ShowDialog();
+            if (!i.IsOK)
+                return;
+            AddFunction alter = new AddFunction() { Title = "Изменение" };
+            ChartingObject obj = controller.getAllChartings()[i.Index - 1];
+            alter.name_txt.Text = obj.Name;
+            alter.function_txt.Text = obj.Function;
+            alter.step_txt.Text = obj.Step.ToString();
+            alter.min_txt.Text = obj.Min.ToString();
+            alter.max_txt.Text = obj.Max.ToString();
+            alter.ShowDialog();
+            if (!alter.IsOK)
+                return;
+            if (!controller.alterFunction(i.Index - 1, alter.Name, alter.Function,
+                                         alter.Step, alter.Min, alter.Max))
+            {
+                MessageBox.Show("Не могу изменить функцию: индекс = " + i.Index + 
+                                " за пределами диапазона!");
+                return;
+            }
+            elementsPanel.Children.RemoveAt(i.Index - 1);
+            GraphicsElement ge = new GraphicsElement(i.Index,
+                                                     alter.Name, alter.Function, alter.Step,
+                                                     alter.Min, alter.Max);
+            elementsPanel.Children.Insert(i.Index - 1, ge);
+            MessageBox.Show("График функции '" + alter.Name + "' изменен!");
         }
 
         
