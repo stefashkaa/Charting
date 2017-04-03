@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+//Model
 namespace Charting
 {
     class ChartingModel
