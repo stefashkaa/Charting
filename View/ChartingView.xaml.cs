@@ -29,7 +29,7 @@ namespace Charting
         public ChartingView()
         {
             InitializeComponent();
-            controller = new ChartingController();
+            controller = App.Controller;
         }
         
         private void Window_Loaded(object sender, RoutedEventArgs e)

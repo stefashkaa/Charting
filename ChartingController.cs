@@ -13,7 +13,10 @@ namespace Charting
         public ChartingController()
         {
             model = new ChartingModel();
-            //create VIEW!!!!!!!
+            //VIEW
+            Charting.App app = new Charting.App(this);
+            app.InitializeComponent();
+            app.Run();
         }
 
         public bool addFunction( string name, string function, 

@@ -13,5 +13,11 @@ namespace Charting
     /// </summary>
     public partial class App : Application
     {
+        public static ChartingController Controller { get; set; }
+
+        public App(ChartingController c) 
+        {
+            Controller = c;
+        }
     }
 }
