@@ -26,7 +26,7 @@
                             <Path Width="16" Height="16" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource new_windowStyle0}" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="openFile" Command="Open" Header="Open" Click="openFile_Click"/>
+                    <MenuItem x:Name="openFile" Header="Open" Click="openFile_Click"/>
                     <Separator/>
                     <MenuItem x:Name="saveFile" Header="Save" Click="saveFile_Click"/>
                     <MenuItem x:Name="saveAsFile" Header="Save As" Click="saveAsFile_Click">
@@ -40,8 +40,8 @@
                     <MenuItem x:Name="alterFunction" Header="Alter function" Click="alterFunction_Click"/>
                 </MenuItem>
                 <MenuItem Header="About" Width="60" TextOptions.TextFormattingMode="Display" FontSize="14" FontFamily="Times New Roman" HorizontalContentAlignment="Center">
-                    <MenuItem Header="About program"/>
-                    <MenuItem Header="About author"/>
+                    <MenuItem x:Name="aboutProgram" Header="About program" Click="aboutProgram_Click"/>
+                    <MenuItem x:Name="aboutAuthor" Header="About author" Click="aboutAuthor_Click"/>
                 </MenuItem>
             </Menu>
             <StackPanel x:Name="elementsPanel" Margin="1,30,0,0"/>

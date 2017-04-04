@@ -40,20 +40,49 @@ namespace Charting
             return true;
         }
 
-        public bool save(string fi)
+        public bool saveScheme(string fi)
         {
-            //
-            System.IO.FileStream file = System.IO.File.Create(fi);
-            System.Xml.Serialization.XmlSerializer writer = new
-                System.Xml.Serialization.XmlSerializer(typeof(ChartingModel));
-            writer.Serialize(file, model);
-            file.Close();
+            try
+            {
+                System.IO.FileStream file = System.IO.File.Create(fi);
+                System.Xml.Serialization.XmlSerializer writer = new
+                    System.Xml.Serialization.XmlSerializer(typeof(ChartingModel));
+                writer.Serialize(file, model);
+                file.Close();
+            }
+            catch (System.Xml.XmlException)
+            {
+                return false;
+            }
             return true;
         }
 
         public List<ChartingObject> getAllChartings()
         {
             return model.Objects;
+        }
+
+        public void clearObjects()
+        {
+            model.clearObjects();
+        }
+
+        public bool openSchema(string file)
+        {
+            var xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(ChartingModel));
+
+            try
+            {
+                var document = System.Xml.Linq.XDocument.Load(file);
+
+                model = (ChartingModel)xmlSerializer.Deserialize(document.CreateReader());
+            }
+            catch (System.Xml.XmlException)
+            { 
+                return false; 
+            }
+
+            return true;
         }
     }
 }
