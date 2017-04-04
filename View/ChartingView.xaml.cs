@@ -23,27 +23,17 @@ namespace Charting
     {
         private ChartingController controller;
 
+        private System.Windows.Forms.SaveFileDialog save;
+        private System.Windows.Forms.OpenFileDialog open;
+
         public ChartingView()
         {
             InitializeComponent();
             controller = new ChartingController();
         }
-
+        
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //// Все графики находятся в пределах области построения ChartArea, создадим ее
-            //chart.ChartAreas.Add(new ChartArea("Default"));
-
-            //// Добавим линию, и назначим ее в ранее созданную область "Default"
-            //chart.Series.Add(new Series("Series1"));
-            //chart.Series["Series1"].ChartArea = "Default";
-            //chart.Series["Series1"].ChartType = SeriesChartType.Line;
-
-            //// добавим данные линии
-            //string[] axisXData = new string[] { "a", "b", "c" };
-            //double[] axisYData = new double[] { 0.1, 1.5, 1.9 };
-            //chart.Series["Series1"].Points.DataBindXY(axisXData, axisYData);
-
         }
 
         private void addFunction_Click(object sender, RoutedEventArgs e)
@@ -96,8 +86,57 @@ namespace Charting
             GraphicsElement ge = new GraphicsElement(i.Index,
                                                      alter.Name, alter.Function, alter.Step,
                                                      alter.Min, alter.Max);
+            ge.Margin = new Thickness(1);
+            ge.Width = elementsPanel.Width - scrollViewer.Width;
             elementsPanel.Children.Insert(i.Index - 1, ge);
             MessageBox.Show("График функции '" + alter.Name + "' изменен!");
+        }
+
+        private void newFile_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (controller.getAllChartings().Count != 0)
+                if (MessageBox.Show("Сохранить схему?", "Warning",
+                   MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    saveAsFile_Click(null, null);
+                }
+            
+        }
+
+        private void openFile_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void saveFile_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void saveAsFile_Click(object sender, RoutedEventArgs e)
+        {
+            save = new System.Windows.Forms.SaveFileDialog();
+            save.Filter = "XML format (*.xml)|*.xml";
+            save.FileName = "Новая схема";
+            if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                controller.save(save.FileName);
+            }
+        }
+
+        private void closeSchema_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Сохранить схему перед закрытием?", "Warning",
+                   MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                saveAsFile_Click(null, null);
+            }
+        }
+
+        private void exit_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         

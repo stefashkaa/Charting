@@ -1,13 +1,27 @@
-﻿namespace Charting
+﻿using System.Xml.Serialization;
+
+namespace Charting
 {
     public class ChartingObject
     {
+        [XmlElement("Id")]
         private int id;
+        [XmlElement("Name")]
         private string name;
+        [XmlElement("Step")]
         private int step;
+        [XmlElement("Min")]
         private double min;
+        [XmlElement("Max")]
         private double max;
+        [XmlElement("Function")]
         private string function;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
         public string Name
         {
@@ -39,12 +53,8 @@
             set { function = value; }
         }
 
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-       
+        public ChartingObject() { }
+
         public ChartingObject(int id, string name, string function, int step, double min, double max)
         {
             this.id = id;

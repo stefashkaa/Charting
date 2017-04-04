@@ -47,10 +47,8 @@ namespace Charting
         public void drawFunction( string function,
                                int step, double min, double max)
         {
-            // Все графики находятся в пределах области построения ChartArea, создадим ее
             chart.ChartAreas.Add(new ChartArea("Default"));
             
-            // Добавим линию, и назначим ее в ранее созданную область "Default"
             chart.Series.Add(new Series("Series1"));
 
             chart.Series["Series1"].ChartArea = "Default";

@@ -21,26 +21,23 @@
             </Grid.Background>
             <Menu Background="#FF78F9FF" Height="25" VerticalAlignment="Top">
                 <MenuItem Header="File" Margin="0" Width="40" TextOptions.TextFormattingMode="Display" FontSize="14" FontFamily="Times New Roman" HorizontalContentAlignment="Center">
-                    <MenuItem Header="New">
+                    <MenuItem x:Name="newFile" Header="New" Click="newFile_Click">
                         <MenuItem.Icon>
                             <Path Width="16" Height="16" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource new_windowStyle0}" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="Open" Header="Open"/>
+                    <MenuItem x:Name="openFile" Command="Open" Header="Open" Click="openFile_Click"/>
                     <Separator/>
-                    <MenuItem Header="Save"/>
-                    <MenuItem Header="Save As">
-                        <MenuItem Header="JPG"/>
-                        <MenuItem Header="PNG"/>
+                    <MenuItem x:Name="saveFile" Header="Save" Click="saveFile_Click"/>
+                    <MenuItem x:Name="saveAsFile" Header="Save As" Click="saveAsFile_Click">
                     </MenuItem>
                     <Separator/>
-                    <MenuItem Header="Close"/>
-                    <MenuItem Header="Exit"/>
+                    <MenuItem x:Name="closeSchema" Header="Close" Click="closeSchema_Click"/>
+                    <MenuItem x:Name="exit" Header="Exit" Click="exit_Click"/>
                 </MenuItem>
                 <MenuItem Header="Schema" Width="60" TextOptions.TextFormattingMode="Display" FontSize="14" FontFamily="Times New Roman" HorizontalContentAlignment="Center">
                     <MenuItem x:Name="addFunction" Header="Add function" Click="addFunction_Click"/>
                     <MenuItem x:Name="alterFunction" Header="Alter function" Click="alterFunction_Click"/>
-                    <MenuItem Header="Delete function"/>
                 </MenuItem>
                 <MenuItem Header="About" Width="60" TextOptions.TextFormattingMode="Display" FontSize="14" FontFamily="Times New Roman" HorizontalContentAlignment="Center">
                     <MenuItem Header="About program"/>

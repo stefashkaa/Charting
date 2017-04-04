@@ -27,22 +27,33 @@ namespace Charting
                                     double newMin, double newMax)
         {
             if (id > getAllChartings().Count)
-                return false;//"Не могу изменить функцию: индекс = " + id + " за пределами диапазона!";
+                return false;
             model.setObject(id, newName, newFunction, newStep, newMin, newMax);
-            return true;//"Функция изменена!";
+            return true;
         }
 
         public bool deleteFunctionById(int id)
         {
             if (id > getAllChartings().Count)
-                return false;//"Не могу удалить функцию: индекс = "+id+" за пределами диапазона!";
+                return false;
             model.removeObject(id);
-            return true;//"Функция удалена!";
+            return true;
+        }
+
+        public bool save(string fi)
+        {
+            //
+            System.IO.FileStream file = System.IO.File.Create(fi);
+            System.Xml.Serialization.XmlSerializer writer = new
+                System.Xml.Serialization.XmlSerializer(typeof(ChartingModel));
+            writer.Serialize(file, model);
+            file.Close();
+            return true;
         }
 
         public List<ChartingObject> getAllChartings()
         {
-            return model.getObjects();
+            return model.Objects;
         }
     }
 }
