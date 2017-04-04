@@ -193,6 +193,25 @@ namespace Charting
         {
 
         }
+
+        private void deleteFunction_Click(object sender, RoutedEventArgs e)
+        {
+            InputIndex i = new InputIndex() { Title = "Удаление по индексу" };
+            i.ShowDialog();
+            if (!i.IsOK)
+                return;
+            controller.deleteFunctionById(i.Index - 1);
+            elementsPanel.Children.RemoveAt(i.Index - 1);
+            List<ChartingObject> list = controller.getAllChartings();
+            for (int j = i.Index - 1; j < list.Count; j++)
+            {
+                elementsPanel.Children.RemoveAt(j);
+                GraphicsElement ge = showFunction(j + 1,
+                                                  list[j].Name, list[j].Function, list[j].Step,
+                                                  list[j].Min, list[j].Max);
+                elementsPanel.Children.Insert(j, ge);
+            }
+        }
     }
 
 

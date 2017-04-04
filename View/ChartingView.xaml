@@ -38,6 +38,8 @@
                 <MenuItem Header="Schema" Width="60" TextOptions.TextFormattingMode="Display" FontSize="14" FontFamily="Times New Roman" HorizontalContentAlignment="Center">
                     <MenuItem x:Name="addFunction" Header="Add function" Click="addFunction_Click"/>
                     <MenuItem x:Name="alterFunction" Header="Alter function" Click="alterFunction_Click"/>
+                    <MenuItem x:Name="deleteFunction" Header="Delete function" Click="deleteFunction_Click"/>
+
                 </MenuItem>
                 <MenuItem Header="About" Width="60" TextOptions.TextFormattingMode="Display" FontSize="14" FontFamily="Times New Roman" HorizontalContentAlignment="Center">
                     <MenuItem x:Name="aboutProgram" Header="About program" Click="aboutProgram_Click"/>
