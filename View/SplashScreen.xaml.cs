@@ -26,7 +26,6 @@ namespace Charting.View
         {
             InitializeComponent();
               
-            //grid.Background
             count = 0;
             var timer = new Timer() { Interval = 50 };
             timer.Tick += new EventHandler(timer_Tick);
@@ -44,7 +43,7 @@ namespace Charting.View
             if (timer != null && count == 100)
             {
                 timer.Stop();
-                new ChartingView().Show();
+                new ChartingController();
                 Close();
             }
         }

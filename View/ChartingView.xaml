@@ -5,7 +5,7 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:dvc ="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
         xmlns:local="clr-namespace:Charting"
-        Title="Charting" Height="472.319" Width="539.533" WindowStartupLocation="CenterScreen">
+        Title="Charting" Height="472.319" Width="539.533" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Window.Resources>
         <Geometry x:Key="new_windowStyle0">F1 M 28,12L 36,12L 36,20L 33,23L 33,17.5L 22,28.5L 19.5,26L 30.5,15L 25,15L 28,12 Z M 12,16L 27,16L 24,19L 15,19L 15,33L 29,33L 29,24L 32,21L 32,36L 12,36L 12,16 Z</Geometry>
         <SolidColorBrush x:Key="FillPath" Color="#0cbbd6"/>

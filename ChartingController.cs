@@ -5,14 +5,13 @@ namespace Charting
     public class ChartingController
     {
         private ChartingModel model;
+        private ChartingView view;
 
         public ChartingController()
         {
             model = new ChartingModel();
-            //VIEW
-            Charting.App app = new Charting.App(this);
-            app.InitializeComponent();
-            app.Run();
+            view = new ChartingView(this);
+            view.Show();
         }
 
         public bool addFunction( string name, string function, 

@@ -17,9 +17,14 @@ namespace Charting
         public ChartingView()
         {
             InitializeComponent();
-            controller = App.Controller;
         }
-        
+
+        public ChartingView(ChartingController c)
+            : this()
+        {
+            controller = c;
+        }
+
         #region ЭЛЕМЕНТЫ МЕНЮ
         private void addFunction_Click(object sender, RoutedEventArgs e)
         {
@@ -133,12 +138,12 @@ namespace Charting
 
         private void exit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            this.Close();
         }
 
         private void aboutProgram_Click(object sender, RoutedEventArgs e)
         {
-
+            new View.AboutProgram().ShowDialog();
         }
 
         private void deleteFunction_Click(object sender, RoutedEventArgs e)
@@ -198,7 +203,15 @@ namespace Charting
         {
             elementsPanel.Children.Clear();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBox.Show("Вы действительно хотите закрыть программу?", "Закрытие программы", MessageBoxButton.YesNo) == System.Windows.MessageBoxResult.No)
+            {
+                e.Cancel = true;
+            }
+            else
+                Application.Current.Shutdown();
+        }
     }
-
-
 }
