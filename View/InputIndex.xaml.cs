@@ -8,9 +8,10 @@ namespace Charting
     /// </summary>
     public partial class InputIndex : Window
     {
+        private ChartingController controller;
+
         public bool IsOK;
         public int Index;
-        private ChartingController controller;
 
         public InputIndex()
         {

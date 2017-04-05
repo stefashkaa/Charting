@@ -14,9 +14,12 @@ namespace Charting
     /// </summary>
     public partial class GraphicsElement : System.Windows.Controls.UserControl
     {
+        public bool isError {get; set;}
+
         public GraphicsElement()
         {
             InitializeComponent();
+            isError = false;
         }
 
         public GraphicsElement(int id, string name, string function, 
@@ -28,11 +31,10 @@ namespace Charting
             step_txt.Text = step.ToString();
             min_txt.Text = min.ToString();
             max_txt.Text = max.ToString();
-            //рисование функций
-            drawFunction(function, step, min, max);
+            drawFunction(id, function, step, min, max);
         }
 
-        public void drawFunction( string function,
+        public void drawFunction(int id, string function,
                                int step, double min, double max)
         {
             chart.ChartAreas.Add(new ChartArea("Default"));
@@ -42,35 +44,36 @@ namespace Charting
             chart.Series["Series1"].ChartArea = "Default";
             chart.Series["Series1"].ChartType = SeriesChartType.FastLine;
             chart.Series["Series1"].BorderWidth = 2;
-            double delta = (max - min) / step;
-            double tmp = min;
-            double[] xData = new double[step];
-            double[] yData = new double[step];
-            List<VariableValue> values = new List<VariableValue>();
-
-            for (int i = 0; i < step; i++)
-            {
-                values.Add(new VariableValue(tmp, "x"));
-                
-                xData[i] = tmp;
-                yData[i] = calc(function, values);
-                values.Clear();
-                tmp += delta;
-            }
-           
-            chart.Series["Series1"].Points.DataBindXY(xData, yData);
+            
+            double[] xData;
+            double[] yData = calc(function, step, min, max, out xData);
+            if(yData != null)
+                chart.Series["Series1"].Points.DataBindXY(xData, yData);
         }
-        private double calc(string function, List<VariableValue> values)
+
+        private double[] calc(string function, int step, double min, double max, out double[] xData)
         {
+            xData = new double[step];
+            double[] yData = new double[step];
             try
             {
-                PreparedExpression preparedExpression = ToolsHelper.Parser.Parse(function);
-                CompiledExpression compiledExpression = ToolsHelper.Compiler.Compile(preparedExpression);
-                return ToolsHelper.Calculator.Calculate(compiledExpression, values);
-            }
-            catch (CompilerSyntaxException ex)
-            {
-                System.Windows.MessageBox.Show(String.Format("Compiler syntax error: {0}", ex.Message));
+                double delta = (max - min) / step;
+                double tmp = min;
+                List<VariableValue> values = new List<VariableValue>();
+
+                for (int i = 0; i < step; i++)
+                {
+                    values.Add(new VariableValue(tmp, "x"));
+
+                    xData[i] = tmp;
+ 
+                    PreparedExpression preparedExpression = ToolsHelper.Parser.Parse(function);
+                    CompiledExpression compiledExpression = ToolsHelper.Compiler.Compile(preparedExpression);
+                    yData[i] = ToolsHelper.Calculator.Calculate(compiledExpression, values);
+                    values.Clear();
+                    tmp += delta;
+                }
+                return yData;
             }
             catch (MathProcessorException ex)
             {
@@ -80,12 +83,17 @@ namespace Charting
             {
                 System.Windows.MessageBox.Show("Error in input data.");
             }
+            catch (ArithmeticException ex)
+            {
+                System.Windows.MessageBox.Show(String.Format("Error: {0}", ex.Message));
+            }
             catch (Exception)
             {
                 System.Windows.MessageBox.Show("Unexpected exception.");
                 throw;
             }
-            return 0;
+            isError = true;
+            return null;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Charting.InputIndex"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="InputIndex" Height="167.164" Width="300" WindowStartupLocation="CenterOwner" MaxHeight="167.164" MinHeight="167.164" MaxWidth="300" MinWidth="300">
+        Title="InputIndex" Height="167.164" Width="300" WindowStartupLocation="CenterScreen" MaxHeight="167.164" MinHeight="167.164" MaxWidth="300" MinWidth="300">
     <Grid x:Name="frontPanel" ScrollViewer.CanContentScroll="True" Margin="0,0,0,0">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

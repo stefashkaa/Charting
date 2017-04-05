@@ -19,10 +19,7 @@ namespace Charting
             InitializeComponent();
             controller = App.Controller;
         }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
+        
         #region ЭЛЕМЕНТЫ МЕНЮ
         private void addFunction_Click(object sender, RoutedEventArgs e)
         {
@@ -37,7 +34,6 @@ namespace Charting
             }
             addGraphic(controller.getAllChartings().Count,
                         f.Name, f.Function, f.Step, f.Min, f.Max);
-
             MessageBox.Show("График функции '"+f.Name+"' добавлен!");
         }
 
@@ -48,6 +44,7 @@ namespace Charting
             if (!i.IsOK)
                 return;
             AddFunction alter = new AddFunction() { Title = "Изменение" };
+            
             ChartingObject obj = controller.getAllChartings()[i.Index - 1];
             alter.name_txt.Text = obj.Name;
             alter.function_txt.Text = obj.Function;
@@ -66,8 +63,8 @@ namespace Charting
             }
             elementsPanel.Children.RemoveAt(i.Index - 1);
             GraphicsElement ge = showFunction(i.Index,
-                                                     alter.Name, alter.Function, alter.Step,
-                                                     alter.Min, alter.Max);
+                                              alter.Name, alter.Function, alter.Step,
+                                              alter.Min, alter.Max);
             elementsPanel.Children.Insert(i.Index - 1, ge);
             MessageBox.Show("График функции '" + alter.Name + "' изменен!");
         }
@@ -144,11 +141,6 @@ namespace Charting
 
         }
 
-        private void aboutAuthor_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void deleteFunction_Click(object sender, RoutedEventArgs e)
         {
             InputIndex i = new InputIndex(controller) { Title = "Удаление по индексу" };
@@ -162,7 +154,7 @@ namespace Charting
             for (int j = i.Index - 1; j < list.Count; j++)
             {
                 elementsPanel.Children.RemoveAt(j);
-                GraphicsElement ge = showFunction(j + 1,
+                GraphicsElement ge = showFunction(j+1,
                                                   list[j].Name, list[j].Function, list[j].Step,
                                                   list[j].Min, list[j].Max);
                 elementsPanel.Children.Insert(j, ge);

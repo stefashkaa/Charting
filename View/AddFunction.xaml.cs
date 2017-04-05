@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Windows;
+using ELW.Library.Math;
+using ELW.Library.Math.Exceptions;
+using ELW.Library.Math.Expressions;
+using ELW.Library.Math.Tools;
 
 namespace Charting
 {
@@ -45,8 +49,25 @@ namespace Charting
                 MessageBox.Show("Поля 'название' и 'функция' не заданы!");
                 return;
             }
+            if (!checkExpression(Function))
+                return;
+
             IsOK = true;
             this.Close();
+        }
+
+        private bool checkExpression(string function) 
+        {
+            try
+            {
+                PreparedExpression preparedExpression = ToolsHelper.Parser.Parse(function);
+                return true;
+            }
+            catch (CompilerSyntaxException ex)
+            {
+                System.Windows.MessageBox.Show(String.Format("Неверно задана функция: {0}", ex.Message));
+            }
+            return false;
         }
     }
 }
