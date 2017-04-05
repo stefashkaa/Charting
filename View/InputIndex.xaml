@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Charting.InputIndex"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="InputIndex" Height="167.164" Width="300">
+        Title="InputIndex" Height="167.164" Width="300" WindowStartupLocation="CenterOwner" MaxHeight="167.164" MinHeight="167.164" MaxWidth="300" MinWidth="300">
     <Grid x:Name="frontPanel" ScrollViewer.CanContentScroll="True" Margin="0,0,0,0">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -10,8 +10,8 @@
                 <GradientStop Color="#FFF5FFFF"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Label Content="Введите индекс и нажмите ОК:" Margin="30,10,30,0" VerticalAlignment="Top" Height="36" FontFamily="Times New Roman" FontSize="16" FontStyle="Italic"/>
-        <Button x:Name="ok_btn" Content="Button" Margin="10,0,10,20" Height="26" VerticalAlignment="Bottom" Click="ok_btn_Click"/>
+        <Label Content="Введите индекс и нажмите ОК:" Margin="10,10,10,0" VerticalAlignment="Top" Height="36" FontFamily="Times New Roman" FontSize="16" FontStyle="Italic"/>
+        <Button x:Name="ok_btn" Content="ОК" Margin="10,0,10,20" Height="26" VerticalAlignment="Bottom" Click="ok_btn_Click"/>
         <TextBox x:Name="index_txt" Height="27" Margin="10,51,10,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
 
     </Grid>

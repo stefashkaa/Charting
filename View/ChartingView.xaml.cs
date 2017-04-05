@@ -1,18 +1,6 @@
-﻿using System;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Charting
 {
@@ -31,11 +19,11 @@ namespace Charting
             InitializeComponent();
             controller = App.Controller;
         }
-        
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
         }
 
+        #region ЭЛЕМЕНТЫ МЕНЮ
         private void addFunction_Click(object sender, RoutedEventArgs e)
         {
             AddFunction f = new AddFunction() { Title = "Добавление" }; 
@@ -53,25 +41,9 @@ namespace Charting
             MessageBox.Show("График функции '"+f.Name+"' добавлен!");
         }
 
-        private void addGraphic(int id, string name, string function, int step, double min, double max) 
-        {
-            GraphicsElement ge = showFunction(id, name, function, step, min, max);
-            elementsPanel.Children.Add(ge);
-        }
-
-        private GraphicsElement showFunction(int id, string name, string function, int step, double min, double max)
-        {
-            GraphicsElement ge = new GraphicsElement(id, name, function, step, min, max);
-            //frontPanel.Height += ge.Height;
-            //elementsPanel.Height += ge.Height;
-            ge.Margin = new Thickness(1);
-            ge.Width = elementsPanel.Width - scrollViewer.Width;
-            return ge;
-        }
-
         private void alterFunction_Click(object sender, RoutedEventArgs e)
         {
-            InputIndex i = new InputIndex() { Title = "Изменение по индексу" };
+            InputIndex i = new InputIndex(controller) { Title = "Изменение по индексу" };
             i.ShowDialog();
             if (!i.IsOK)
                 return;
@@ -103,33 +75,13 @@ namespace Charting
         private void newFile_Click(object sender, RoutedEventArgs e)
         {
             closeScheme();
-        }
-
-        private void closeScheme()
-        {
-            if (controller.getAllChartings().Count == 0)
-            {
-                return;
-            }
-
-            if (MessageBox.Show("Сохранить текущую схему?", "Warning",
-                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                saveAsFile_Click(null, null);
-            }
-            clearAllObjects();
-            controller.clearObjects();
-        }
-
-        private void clearAllObjects()
-        {
-            //TODO: очистка окна
-            elementsPanel.Children.Clear();
+            schemeItem.IsEnabled = true;
         }
 
         private void openFile_Click(object sender, RoutedEventArgs e)
         {
             closeScheme();
+            schemeItem.IsEnabled = true;
             open = new System.Windows.Forms.OpenFileDialog();
             open.Filter = "(*.xml)|*.xml|All files(*.*)|*.*";
             if (open.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -153,6 +105,8 @@ namespace Charting
 
         private void saveFile_Click(object sender, RoutedEventArgs e)
         {
+            if (controller.getAllChartings().Count == 0)
+                return;
             string s = "tmp.xml";
             if (open != null)
             {
@@ -170,13 +124,14 @@ namespace Charting
             if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 controller.saveScheme(save.FileName);
+                MessageBox.Show("Файл сохранен!");
             }
-            MessageBox.Show("Файл сохранен!");
         }
 
         private void closeSchema_Click(object sender, RoutedEventArgs e)
         {
             closeScheme();
+            schemeItem.IsEnabled = false;
         }
 
         private void exit_Click(object sender, RoutedEventArgs e)
@@ -196,10 +151,11 @@ namespace Charting
 
         private void deleteFunction_Click(object sender, RoutedEventArgs e)
         {
-            InputIndex i = new InputIndex() { Title = "Удаление по индексу" };
+            InputIndex i = new InputIndex(controller) { Title = "Удаление по индексу" };
             i.ShowDialog();
             if (!i.IsOK)
                 return;
+            ChartingObject tmp = controller.getAllChartings()[i.Index - 1];
             controller.deleteFunctionById(i.Index - 1);
             elementsPanel.Children.RemoveAt(i.Index - 1);
             List<ChartingObject> list = controller.getAllChartings();
@@ -211,6 +167,44 @@ namespace Charting
                                                   list[j].Min, list[j].Max);
                 elementsPanel.Children.Insert(j, ge);
             }
+            MessageBox.Show("График функции '" + tmp.Name + "' удалён!");
+
+        }
+        #endregion
+
+        private void addGraphic(int id, string name, string function, int step, double min, double max)
+        {
+            GraphicsElement ge = showFunction(id, name, function, step, min, max);
+            elementsPanel.Children.Add(ge);
+        }
+
+        private GraphicsElement showFunction(int id, string name, string function, int step, double min, double max)
+        {
+            GraphicsElement ge = new GraphicsElement(id, name, function, step, min, max);
+            ge.Margin = new Thickness(1);
+            ge.Width = elementsPanel.Width - scrollViewer.Width;
+            return ge;
+        }
+
+        private void closeScheme()
+        {
+            if (controller.getAllChartings().Count == 0)
+            {
+                return;
+            }
+
+            if (MessageBox.Show("Сохранить текущую схему?", "Warning",
+                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                saveAsFile_Click(null, null);
+            }
+            clearAllObjects();
+            controller.clearObjects();
+        }
+
+        private void clearAllObjects()
+        {
+            elementsPanel.Children.Clear();
         }
     }
 

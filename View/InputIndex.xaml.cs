@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Charting
 {
@@ -21,6 +10,7 @@ namespace Charting
     {
         public bool IsOK;
         public int Index;
+        private ChartingController controller;
 
         public InputIndex()
         {
@@ -28,9 +18,15 @@ namespace Charting
             IsOK = false;
         }
 
+        public InputIndex(ChartingController controller) : this()
+        {
+            this.controller = controller;
+        }
+
         private void ok_btn_Click(object sender, RoutedEventArgs e)
         {
-            if (!Int32.TryParse(index_txt.Text, out Index) || Index <= 0) 
+            if (!Int32.TryParse(index_txt.Text, out Index) || Index <= 0 || 
+                Index > controller.getAllChartings().Count) 
             {
                 MessageBox.Show("Поле 'индекс' введено не корректно!");
                 return;

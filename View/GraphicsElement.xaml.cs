@@ -1,18 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ELW.Library.Math;
 using ELW.Library.Math.Exceptions;
@@ -63,16 +51,41 @@ namespace Charting
             for (int i = 0; i < step; i++)
             {
                 values.Add(new VariableValue(tmp, "x"));
-                PreparedExpression preparedExpression = ToolsHelper.Parser.Parse(function);
-                CompiledExpression compiledExpression = ToolsHelper.Compiler.Compile(preparedExpression);
+                
                 xData[i] = tmp;
-                yData[i] = ToolsHelper.Calculator.Calculate(compiledExpression, values);
+                yData[i] = calc(function, values);
                 values.Clear();
                 tmp += delta;
             }
            
             chart.Series["Series1"].Points.DataBindXY(xData, yData);
         }
-
+        private double calc(string function, List<VariableValue> values)
+        {
+            try
+            {
+                PreparedExpression preparedExpression = ToolsHelper.Parser.Parse(function);
+                CompiledExpression compiledExpression = ToolsHelper.Compiler.Compile(preparedExpression);
+                return ToolsHelper.Calculator.Calculate(compiledExpression, values);
+            }
+            catch (CompilerSyntaxException ex)
+            {
+                System.Windows.MessageBox.Show(String.Format("Compiler syntax error: {0}", ex.Message));
+            }
+            catch (MathProcessorException ex)
+            {
+                System.Windows.MessageBox.Show(String.Format("Error: {0}", ex.Message));
+            }
+            catch (ArgumentException)
+            {
+                System.Windows.MessageBox.Show("Error in input data.");
+            }
+            catch (Exception)
+            {
+                System.Windows.MessageBox.Show("Unexpected exception.");
+                throw;
+            }
+            return 0;
+        }
     }
 }
